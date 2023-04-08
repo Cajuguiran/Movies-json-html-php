@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta brand="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="img\sample\wp2714490-film-background.jpg" />
+    <title>MOVIES COLLECTION</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-5">TOP MOVIES PER YEAR</h2>
+        <div class="row" id="demo"></div>
+    </div>
+
+    <script>
+        var txt = "";
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let movies = JSON.parse(this.responseText);
+                console.log(movies);
+                let txt = "";
+                let user = "";
+
+                for(i = 0; i < movies.length;i++){
+                    txt += `
+                        <div class="col-md-6 mb-5">
+                            <div class="card">
+                                <div class="row no-gutters">
+                                    <div class="col-md-5">
+                                        <img class="card-img img-fluid" src="img/sample/${movies[i].img}" alt="">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="card-body">
+                                            <h2 class="card-title mb-4">${movies[i].title}</h2>
+                                            <p class="card-text"><b>Director:</b> ${movies[i].director}</p>
+                                            <p class="card-text"><b>Artist:</b> ${movies[i].artist}</p>
+                                            <p class="card-text"><b>Country:</b> ${movies[i].country}</p>
+                                            <p class="card-text"><b>Year:</b> ${movies[i].year}</p>
+                                            <p class="card-text"><b>Duration:</b> ${movies[i].duration}</p>
+                                            <p class="card-text"><b>Genre:</b></p>         
+                                            <ul class="">`;
+                                                for(j = 0; j < movies[i].genre.length; j++){
+                                                    txt += `
+                                                        <li class="">${movies[i].genre[j]}</li>
+                                                    `;
+                                                }
+                                                txt += `
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                document.getElementById("demo").innerHTML = txt;
+            }
+        }
+        xmlhttp.open("GET", "http://test.test/movies.php");
+        xmlhttp.send();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>
